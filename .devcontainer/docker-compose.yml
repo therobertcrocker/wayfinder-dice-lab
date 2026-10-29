@@ -19,8 +19,24 @@ services:
     # Keep the container alive; VS Code runs your terminals inside it.
     command: sleep infinity
 
+  # One-off step before Foundry starts. To create the module mount point below,
+  # Docker makes /data/Data and /data/Data/modules owned by root, and Foundry
+  # (which runs as "node") then can't create /data/Data/systems. This hands
+  # those two folders to "node". It doesn't touch the mounted repo itself.
+  foundry-init:
+    image: ghcr.io/felddy/foundryvtt:14
+    user: root
+    entrypoint: ["sh", "-c", "mkdir -p /data/Data/modules && chown node:node /data/Data /data/Data/modules"]
+    volumes:
+      - foundry-data:/data
+      - ..:/data/Data/modules/wayfinder-dice-lab:ro
+    restart: "no"
+
   foundry:
     image: ghcr.io/felddy/foundryvtt:14
+    depends_on:
+      foundry-init:
+        condition: service_completed_successfully
     # Foundry ties license verification to the hostname. Keep this fixed,
     # or the license can fail to verify after every rebuild.
     hostname: wayfinder-dev
@@ -31,8 +47,6 @@ services:
       FOUNDRY_MINIFY_STATIC_FILES: "false"  # readable files in browser dev tools
       FOUNDRY_TELEMETRY: "false"
       CONTAINER_CACHE: /data/container_cache  # keep the downloaded Foundry zip
-      # Don't let the container's startup change ownership of the mounted repo.
-      CONTAINER_PRESERVE_OWNER: "/data/Data/modules/wayfinder-dice-lab.*"
     volumes:
       # Foundry's data: installed systems, worlds, settings. Survives rebuilds.
       - foundry-data:/data
