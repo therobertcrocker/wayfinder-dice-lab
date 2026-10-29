@@ -1,0 +1,18 @@
+{
+  "WAYFINDER": {
+    "Settings": {
+      "Debug": {
+        "Name": "Debug logging",
+        "Hint": "Print extra Wayfinder messages to the browser console (F12)."
+      }
+    },
+    "Hello": {
+      "Title": "Wayfinder Dice Lab",
+      "Greeting": "Hello, {name}. Wayfinder Dice Lab is loaded.",
+      "Foundry": "Foundry",
+      "System": "System",
+      "Ping": "Ping",
+      "Pong": "Pong! Actions are wired up."
+    }
+  }
+}

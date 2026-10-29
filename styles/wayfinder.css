@@ -1,0 +1,25 @@
+/*
+ * Scope every rule under .wayfinder so this module never restyles
+ * Foundry's core UI or other modules by accident.
+ */
+
+.wayfinder .wayfinder-hello {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.wayfinder .wayfinder-hello__facts {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 0.25rem 1rem;
+  margin: 0;
+}
+
+.wayfinder .wayfinder-hello__facts dt {
+  font-weight: bold;
+}
+
+.wayfinder .wayfinder-hello__facts dd {
+  margin: 0;
+}

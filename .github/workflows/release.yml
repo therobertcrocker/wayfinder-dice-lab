@@ -1,0 +1,50 @@
+# Builds the installable module when you publish a GitHub Release.
+#
+# How to release:
+#   Create a release on GitHub with a tag like v0.2.0. Don't edit the version
+#   in module.json by hand: this workflow stamps the tag's version and the
+#   manifest/download URLs into module.json, zips the module, and attaches
+#   module.json + module.zip to the release.
+#
+# Users install with the manifest URL:
+#   https://github.com/<owner>/<repo>/releases/latest/download/module.json
+
+name: Release
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Read version from tag
+        id: version
+        run: echo "version=${GITHUB_REF_NAME#v}" >> "$GITHUB_OUTPUT"
+
+      - name: Stamp module.json
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+          MANIFEST: https://github.com/${{ github.repository }}/releases/latest/download/module.json
+          DOWNLOAD: https://github.com/${{ github.repository }}/releases/download/${{ github.event.release.tag_name }}/module.zip
+        run: |
+          jq --arg v "$VERSION" --arg m "$MANIFEST" --arg d "$DOWNLOAD" \
+            '.version = $v | .manifest = $m | .download = $d' \
+            module.json > module.tmp.json
+          mv module.tmp.json module.json
+
+      - name: Zip module
+        run: zip -r module.zip module.json scripts styles templates lang README.md LICENSE
+
+      - name: Attach files to release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            module.json
+            module.zip

@@ -1,0 +1,39 @@
+{
+  "id": "wayfinder-dice-lab",
+  "title": "Wayfinder Dice Lab",
+  "description": "Dice probability calculations for Pathfinder 2e GMs: degree-of-success odds and expected damage, for balancing encounters.",
+  "version": "0.1.0",
+  "authors": [
+    {
+      "name": "Robert",
+      "url": "https://github.com/therobertcrocker"
+    }
+  ],
+  "compatibility": {
+    "minimum": "13",
+    "verified": "14"
+  },
+  "relationships": {
+    "systems": [
+      {
+        "id": "pf2e",
+        "type": "system"
+      }
+    ]
+  },
+  "esmodules": ["scripts/main.js"],
+  "styles": ["styles/wayfinder.css"],
+  "languages": [
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "lang/en.json"
+    }
+  ],
+  "url": "https://github.com/therobertcrocker/wayfinder-dice-lab",
+  "manifest": "https://github.com/therobertcrocker/wayfinder-dice-lab/releases/latest/download/module.json",
+  "download": "https://github.com/therobertcrocker/wayfinder-dice-lab/releases/download/v0.1.0/module.zip",
+  "bugs": "https://github.com/therobertcrocker/wayfinder-dice-lab/issues",
+  "readme": "README.md",
+  "license": "LICENSE"
+}

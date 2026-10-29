@@ -1,0 +1,14 @@
+<div class="wayfinder-hello">
+  <p>{{localize "WAYFINDER.Hello.Greeting" name=userName}}</p>
+
+  <dl class="wayfinder-hello__facts">
+    <dt>{{localize "WAYFINDER.Hello.Foundry"}}</dt>
+    <dd>{{foundryVersion}}</dd>
+    <dt>{{localize "WAYFINDER.Hello.System"}}</dt>
+    <dd>{{systemId}} {{systemVersion}}</dd>
+  </dl>
+
+  <button type="button" data-action="ping">
+    <i class="fa-solid fa-bell"></i> {{localize "WAYFINDER.Hello.Ping"}}
+  </button>
+</div>
