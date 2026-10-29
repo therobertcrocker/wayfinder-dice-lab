@@ -6,6 +6,8 @@
 
 ## Document Types
 
+**Vision** (`docs/vision.md`) — the north star for the whole tool: each layer, how the layers connect, principles and non-goals. Read before any initiative starts. Not the same as an initiative's **Concept** write-up in `planned-work.md` (see `session-modes.md` section 2), which covers one initiative only.
+
 **Planned Work** (`docs/planned-work.md`) — the initiative tracker: Current Initiatives, Up Next, Backlog. See `session-modes.md` section 2.
 
 **Architecture Page** (`docs/architecture/*.md`) — the durable "what it is" and "why it's shaped this way." `overview.md` is the front door; subsystem pages are split out from `templates/arch-page.md` when needed.

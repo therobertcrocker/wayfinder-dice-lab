@@ -17,8 +17,7 @@ _None._
 
 | ID | Item | Type | Trigger | Detail |
 |----|------|------|---------|--------|
-
-_None._
+| F.005 | Core dice engine | feature | ready | Exact distributions from a JS API: sums, keep highest/lowest, rerolls, exploding dice, outcome functions, `pf2e` preset, stats. See `docs/vision.md` |
 
 <br/>
 <br/>
@@ -29,8 +28,11 @@ _None._
 
 | ID | Item | Trigger | Detail |
 |----|------|---------|--------|
-| F.001 | Degree-of-success odds vs the party | -- | For an attack or effect, the chance it critically succeeds, succeeds, fails or critically fails against each party member |
-| F.002 | Expected damage per turn | -- | How much damage per turn the party should expect from a creature |
+| F.001 | Degree-of-success odds vs the party | after F.005 | For an attack or effect, the chance it critically succeeds, succeeds, fails or critically fails against each party member |
+| F.002 | Expected damage per turn | after F.005 | How much damage per turn the party should expect from a creature |
+| F.003 | Compare options | after F.001, F.002 | Side by side odds or damage for different choices, for example "Strike twice" vs "cast a spell," or which save to target |
+| F.004 | Encounter-level odds | after F.002 | Odds over HP and repeated turns, for example the chance a monster drops a PC in one round |
+| F.006 | Formula strings | after F.005 | Parse Foundry-style formula strings (`2d20kh+15`, `2d6+4`) into core engine API calls |
 
 ## Bugfixes
 
@@ -49,4 +51,3 @@ _None._
 ## Captured Ideas
 
 - **F.001, F.002** — Robert stated these as use cases, not as a UX or UI design. Discovery decides the interaction shape.
-- **F.001, F.002** — idea to weigh: keep the dice math in plain modules that do not touch Foundry globals, so `node --test` can test it outside Foundry.

@@ -34,6 +34,7 @@ Before any feature discussion or implementation, read the doc(s) relevant to the
 | If you're working on…                | Read first                                                                                     |
 | ------------------------------------ | ---------------------------------------------------------------------------------------------- |
 | What the module is for               | `README.md` — "What it's for"                                                                  |
+| Starting any initiative              | `docs/vision.md` — the north star for the whole tool                                           |
 | Feature Request or Deferred Decision | `docs/planned-work.md`                                                                         |
 | Before making a design choice        | `Key Decisions` in `docs/architecture/overview.md` plus the initiative plan's Decision Record  |
 | Architecture or system shape         | `docs/architecture/overview.md`                                                                |
