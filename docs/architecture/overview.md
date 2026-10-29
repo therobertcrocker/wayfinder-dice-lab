@@ -62,7 +62,7 @@ module.json ──► esmodules: scripts/main.js
 - **Credentials live in a gitignored `.devcontainer/.env`** — the container fails to start without it, which is clearer than a silent Foundry failure.
 - **Node-only dev container** — add Go only if a need to share code with `gm-toolkit` appears.
 - **Claude Code through the official dev container feature** — it also adds the VS Code extension. `~/.claude` is a bind mount of `%USERPROFILE%\.claude-devcontainer`, the host folder every project container shares, with `CLAUDE_CONFIG_DIR` pointing at it. Sign-in, settings and memories survive rebuilds and carry across projects. (It replaced a per-repo named volume, which survived rebuilds but shared nothing and sat where Windows backup can't reach.) No egress firewall and no `--dangerously-skip-permissions` for now.
-- **Shell matches `gm-toolkit`** — zsh and Starship pastel powerline, set up by `.devcontainer/postcreate.sh`.
+- **Shell comes from the dotfiles repo** — zsh and Starship pastel powerline, installed into every dev container by VS Code's dotfiles setting ([`therobertcrocker/dotfiles`](https://github.com/therobertcrocker/dotfiles)), the same as `gm-toolkit`. `postcreate.sh` doesn't touch the prompt, so it can't overwrite the dotfiles config.
 
 ### Process
 
