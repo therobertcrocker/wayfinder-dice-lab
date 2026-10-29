@@ -90,8 +90,9 @@ Foundry's data (systems, worlds, settings and the downloaded Foundry zip) lives 
 
 The dev container installs Claude Code, both the `claude` CLI and the VS Code extension panel.
 
-1. In a VS Code terminal inside the container, run `claude` and sign in through the browser. If the browser finishes but the terminal keeps waiting, copy the code shown in the browser and paste it at the terminal's prompt.
-2. Your sign-in, settings and history live in a Docker volume (`wayfinder-dice-lab_claude-config`), so you only sign in once, even across rebuilds.
+1. Before the first start, make sure the folder `%USERPROFILE%\.claude-devcontainer` exists on Windows. The container doesn't start without it.
+2. Your sign-in, settings, history and Claude's memories live in that folder, shared with your other dev containers (gm-toolkit, gestalt). You sign in once for all of them, and it survives rebuilds.
+3. If you aren't signed in yet, run `claude` in a VS Code terminal inside the container and sign in through the browser. If the browser finishes but the terminal keeps waiting, copy the code shown in the browser and paste it at the terminal's prompt.
 
 Claude runs inside the container, so its commands can't touch your host. File edits still land in your repo, because the repo is bind-mounted.
 

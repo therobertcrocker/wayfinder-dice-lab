@@ -61,7 +61,7 @@ module.json ──► esmodules: scripts/main.js
 - **Foundry's port is bound to `127.0.0.1` only** — the dev server is reachable only from Robert's machine.
 - **Credentials live in a gitignored `.devcontainer/.env`** — the container fails to start without it, which is clearer than a silent Foundry failure.
 - **Node-only dev container** — add Go only if a need to share code with `gm-toolkit` appears.
-- **Claude Code through the official dev container feature** — it also adds the VS Code extension. `~/.claude` lives in a named volume with `CLAUDE_CONFIG_DIR` pointing at it, so sign-in survives rebuilds. No egress firewall and no `--dangerously-skip-permissions` for now.
+- **Claude Code through the official dev container feature** — it also adds the VS Code extension. `~/.claude` is a bind mount of `%USERPROFILE%\.claude-devcontainer`, the host folder every project container shares, with `CLAUDE_CONFIG_DIR` pointing at it. Sign-in, settings and memories survive rebuilds and carry across projects. (It replaced a per-repo named volume, which survived rebuilds but shared nothing and sat where Windows backup can't reach.) No egress firewall and no `--dangerously-skip-permissions` for now.
 - **Shell matches `gm-toolkit`** — zsh and Starship pastel powerline, set up by `.devcontainer/postcreate.sh`.
 
 ### Process

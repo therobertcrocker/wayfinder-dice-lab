@@ -3,10 +3,6 @@
 # Shell setup mirrors gm-toolkit's dev container (zsh + Starship pastel powerline).
 set -e
 
-# Claude Code's config volume is created owned by root; hand it to the node user
-# so `claude` can save your sign-in there.
-sudo chown -R node:node /home/node/.claude
-
 # Let git work in the bind-mounted repo.
 git config --global --add safe.directory /workspaces/wayfinder-dice-lab
 
