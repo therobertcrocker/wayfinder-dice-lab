@@ -11,6 +11,11 @@ services:
     image: mcr.microsoft.com/devcontainers/javascript-node:1-22-bookworm
     volumes:
       - ..:/workspaces/wayfinder-dice-lab:cached
+      # Claude Code's login, settings and history. Survives rebuilds.
+      - claude-config:/home/node/.claude
+    environment:
+      # Keeps .claude.json (your sign-in) inside the volume above too.
+      CLAUDE_CONFIG_DIR: /home/node/.claude
     # Keep the container alive; VS Code runs your terminals inside it.
     command: sleep infinity
 
@@ -41,3 +46,4 @@ services:
 
 volumes:
   foundry-data:
+  claude-config:

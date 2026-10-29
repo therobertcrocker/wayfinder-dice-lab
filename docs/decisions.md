@@ -35,3 +35,9 @@ Short records of choices that shape this repo. Newest at the bottom. When a deci
 - **Decision:** `.devcontainer/` defines two Compose services: `dev` (Node 22, where VS Code attaches) and `foundry` (`ghcr.io/felddy/foundryvtt:14`). The repo is bind-mounted read-only into Foundry's `Data/modules/wayfinder-dice-lab`. Foundry's data lives in a named volume. Credentials live in a gitignored `.devcontainer/.env`.
 - **Why:** Development already happens in dev containers. Running Foundry next to the editor gives a save-and-refresh loop without symlinks or keeping code inside Foundry's data folder, and keeps experiments away from the live game server, which installs from releases only.
 - **Notes:** The Foundry container's hostname is pinned (`wayfinder-dev`) because Foundry ties license verification to it. The port is bound to `127.0.0.1` only. Node-only for now; add Go only if a shared-code need appears.
+
+## D-008: Claude Code in the dev container
+- **Date:** 2026-10-28
+- **Decision:** Install Claude Code with the official dev container feature (`ghcr.io/anthropics/devcontainer-features/claude-code:1.0`), which also adds the VS Code extension. Persist `~/.claude` in a named volume and set `CLAUDE_CONFIG_DIR` to it, both in `docker-compose.yml` because Compose-based dev containers take volumes and env from there. Shell setup (zsh + Starship pastel powerline) matches `gm-toolkit`'s dev container via `.devcontainer/postcreate.sh`.
+- **Why:** The feature is Anthropic's documented install path and keeps Claude Code updated. Persisting the config volume means signing in once rather than after every rebuild.
+- **Not doing (yet):** an egress firewall or running with `--dangerously-skip-permissions`.

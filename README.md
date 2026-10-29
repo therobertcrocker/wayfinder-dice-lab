@@ -81,6 +81,15 @@ Development runs in a VS Code dev container with two parts: a `dev` container wh
 
 Foundry's data (systems, worlds, settings and the downloaded Foundry zip) lives in a Docker volume, so all of this survives container rebuilds. To start completely fresh, remove the `wayfinder-dice-lab_foundry-data` volume.
 
+### Claude Code
+
+The dev container installs Claude Code, both the `claude` CLI and the VS Code extension panel.
+
+1. In a VS Code terminal inside the container, run `claude` and sign in through the browser. If the browser finishes but the terminal keeps waiting, copy the code shown in the browser and paste it at the terminal's prompt.
+2. Your sign-in, settings and history live in a Docker volume (`wayfinder-dice-lab_claude-config`), so you only sign in once, even across rebuilds.
+
+Claude runs inside the container, so its commands can't touch your host. File edits still land in your repo, because the repo is bind-mounted.
+
 ### Day to day
 
 - **CSS, templates and lang files** reload automatically (hot reload is on).
