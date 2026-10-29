@@ -30,7 +30,12 @@ wayfinder-dice-lab/
 ├── templates/hello.hbs    # Handlebars template for the example window
 ├── styles/wayfinder.css   # Styles, scoped under .wayfinder
 ├── lang/en.json           # Localized strings
-├── docs/decisions.md      # Decisions log
+├── docs/
+│   ├── architecture/overview.md   # Module shape + Key Decisions
+│   ├── planned-work.md            # Initiative tracker
+│   └── process/                   # Session modes, style guide, templates
+├── CLAUDE.md              # Instructions for Claude Code sessions
+├── .claude/settings.json  # Claude Code permissions, plugins, hooks
 ├── .devcontainer/         # Dev container: editor + local Foundry server
 └── .github/workflows/release.yml
 ```
@@ -113,7 +118,8 @@ Your real game server (for example a hosted Foundry) installs the module from a 
 ## Conventions
 
 - **Commits:** [Conventional Commits](https://www.conventionalcommits.org/).
-- **Decisions:** recorded in [`docs/decisions.md`](docs/decisions.md).
+- **Process:** Discovery → Plan → Execution sessions, described in [`docs/process/session-modes.md`](docs/process/session-modes.md). Work is tracked in [`docs/planned-work.md`](docs/planned-work.md).
+- **Decisions:** durable ones live in `Key Decisions` in [`docs/architecture/overview.md`](docs/architecture/overview.md); the rest live in each initiative's plan.
 
 ## References
 

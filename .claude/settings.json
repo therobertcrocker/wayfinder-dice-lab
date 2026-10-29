@@ -1,0 +1,28 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node --test *)",
+      "Bash(node --check *)",
+      "LSP",
+      "WebFetch(domain:foundryvtt.com)",
+      "WebFetch(domain:2e.aonprd.com)",
+      "WebFetch(domain:mermaid.js.org)"
+    ]
+  },
+  "enabledPlugins": {
+    "typescript-lsp@claude-plugins-official": true
+  },
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cd \"${CLAUDE_PROJECT_DIR:-.}\" 2>/dev/null; find docs/architecture -name '*.md' | sort | sed 's#^#  - #' | jq -Rs '{hookSpecificOutput:{hookEventName:\"SessionStart\",additionalContext:(\"Architecture docs — read the relevant page BEFORE any design decision or work touching system shape (push, not pull). Front door: docs/architecture/overview.md\\nAvailable pages:\\n\" + .)}}' 2>/dev/null || true",
+            "statusMessage": "Loading architecture index"
+          }
+        ]
+      }
+    ]
+  }
+}
