@@ -1,0 +1,43 @@
+# Two containers:
+#   dev     - where VS Code attaches: Node, git, your editor tooling
+#   foundry - a real Foundry v14 server with this repo mounted as a module
+#
+# Paths like ".." are relative to this file, so ".." is the repo root.
+
+name: wayfinder-dice-lab
+
+services:
+  dev:
+    image: mcr.microsoft.com/devcontainers/javascript-node:1-22-bookworm
+    volumes:
+      - ..:/workspaces/wayfinder-dice-lab:cached
+    # Keep the container alive; VS Code runs your terminals inside it.
+    command: sleep infinity
+
+  foundry:
+    image: ghcr.io/felddy/foundryvtt:14
+    # Foundry ties license verification to the hostname. Keep this fixed,
+    # or the license can fail to verify after every rebuild.
+    hostname: wayfinder-dev
+    # Your foundryvtt.com credentials. Copy .env.example to .env and fill it in.
+    env_file: .env
+    environment:
+      FOUNDRY_HOT_RELOAD: "true"            # reload CSS/HTML/lang without F5
+      FOUNDRY_MINIFY_STATIC_FILES: "false"  # readable files in browser dev tools
+      FOUNDRY_TELEMETRY: "false"
+      CONTAINER_CACHE: /data/container_cache  # keep the downloaded Foundry zip
+      # Don't let the container's startup change ownership of the mounted repo.
+      CONTAINER_PRESERVE_OWNER: "/data/Data/modules/wayfinder-dice-lab.*"
+    volumes:
+      # Foundry's data: installed systems, worlds, settings. Survives rebuilds.
+      - foundry-data:/data
+      # This repo, seen by Foundry as an installed module. Read-only so that
+      # uninstalling or updating the module inside Foundry can't touch your code.
+      - ..:/data/Data/modules/wayfinder-dice-lab:ro
+    ports:
+      # Only reachable from this computer: http://localhost:30000
+      - "127.0.0.1:30000:30000"
+    restart: unless-stopped
+
+volumes:
+  foundry-data:

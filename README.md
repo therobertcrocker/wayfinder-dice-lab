@@ -31,6 +31,7 @@ wayfinder-dice-lab/
 ├── styles/wayfinder.css   # Styles, scoped under .wayfinder
 ├── lang/en.json           # Localized strings
 ├── docs/decisions.md      # Decisions log
+├── .devcontainer/         # Dev container: editor + local Foundry server
 └── .github/workflows/release.yml
 ```
 
@@ -49,42 +50,56 @@ module.json ──► esmodules: scripts/main.js
    Hooks "ready" ──► logs Foundry + PF2e versions
 ```
 
-## Local development
+## Development (dev container)
 
-Foundry loads modules from `{userData}/Data/modules/<id>/`, and the folder name must match `"id"` in `module.json`. Clone the repo wherever you keep code, then symlink it into Foundry's data folder so edits show up immediately.
+Development runs in a VS Code dev container with two parts: a `dev` container where you edit and run tools, and a `foundry` container running a real Foundry v14 server. This repo is mounted into Foundry's modules folder, so saving a file is all it takes for Foundry to see the change.
 
-Find `<userData>` in Foundry under **Setup → Configuration → User Data Path**.
-
-**macOS / Linux** (from the repo root)
-```sh
-ln -s "$(pwd)" "<userData>/Data/modules/wayfinder-dice-lab"
+```
+ VS Code ──attaches──► dev container            foundry container (felddy/foundryvtt:14)
+                       ┌────────────────┐       ┌───────────────────────────────────────┐
+                       │ /workspaces/   │ bind  │ /data/Data/modules/wayfinder-dice-lab │
+                       │ wayfinder-     ├──────►│        (same files, read-only)        │
+                       │ dice-lab       │ mount │ /data  ← named volume: PF2e, test     │
+                       │ node, git      │       │          world, settings persist      │
+                       └────────────────┘       └──────────────┬────────────────────────┘
+                                                               │ port 30000
+                                              browser: http://localhost:30000
 ```
 
-**Windows** (PowerShell as admin, from the repo root)
-```powershell
-New-Item -ItemType SymbolicLink -Path "<userData>\Data\modules\wayfinder-dice-lab" -Target (Get-Location)
-```
+### First-time setup
 
-Then:
-1. Launch a PF2e world and enable **Wayfinder Dice Lab** in **Manage Modules**.
-2. Open the browser console (F12). You should see `wayfinder-dice-lab | Ready ...`.
-3. Run this in the console or a script macro to open the example window:
+1. Copy `.devcontainer/.env.example` to `.devcontainer/.env` and fill in your foundryvtt.com username and password, plus an admin key of your choice. `.env` is gitignored.
+2. In VS Code, run **Dev Containers: Reopen in Container**.
+3. Wait for Foundry to download on first start. Watch progress with `docker logs -f wayfinder-dice-lab-foundry-1` on your host.
+4. Open http://localhost:30000 and log in with your admin key.
+5. In Foundry's Setup screen, install the **Pathfinder Second Edition** system and create a test world.
+6. Launch the world, then enable **Wayfinder Dice Lab** in **Manage Modules**.
+7. Check it works: open the browser console (F12). You should see `wayfinder-dice-lab | Ready ...`. Then run:
    ```js
    game.modules.get("wayfinder-dice-lab").api.openHello()
    ```
 
-**Reloading:** JS, CSS, template and lang changes need a browser refresh (F5). Changes to `module.json` need a return to Setup and a relaunch of the world.
+Foundry's data (systems, worlds, settings and the downloaded Foundry zip) lives in a Docker volume, so all of this survives container rebuilds. To start completely fresh, remove the `wayfinder-dice-lab_foundry-data` volume.
 
-## Releasing
+### Day to day
+
+- **CSS, templates and lang files** reload automatically (hot reload is on).
+- **JavaScript** changes need a browser refresh (F5).
+- **`module.json`** changes need a return to Setup and a relaunch of the world.
+
+The module folder is mounted **read-only** inside Foundry, so uninstalling or updating the module from Foundry's UI can't touch your code. If Foundry ever shows an error about writing to the module, that's why.
+
+## Installing on a game server
+
+Your real game server (for example a hosted Foundry) installs the module from a GitHub release, the same way as any other module. Don't copy development files onto it.
 
 1. Push your changes to `main`.
-2. On GitHub, publish a release with a tag like `v0.2.0`.
-3. The release workflow stamps that version into `module.json`, builds `module.zip`, and attaches both.
-
-Install URL for Foundry (**Install Module → Manifest URL**):
-```
-https://github.com/therobertcrocker/wayfinder-dice-lab/releases/latest/download/module.json
-```
+2. On GitHub, publish a release with a tag like `v0.2.0`. The release workflow stamps that version into `module.json`, builds `module.zip`, and attaches both.
+3. In the server's Foundry, go to **Add-on Modules → Install Module** and paste the manifest URL:
+   ```
+   https://github.com/therobertcrocker/wayfinder-dice-lab/releases/latest/download/module.json
+   ```
+4. For later versions, publish a new release and click **Update** in Foundry.
 
 ## Conventions
 

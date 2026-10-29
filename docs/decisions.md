@@ -29,3 +29,9 @@ Short records of choices that shape this repo. Newest at the bottom. When a deci
 - **Date:** 2026-10-28
 - **Decision:** Publishing a GitHub Release tagged `vX.Y.Z` stamps the version and URLs into `module.json` and attaches `module.json` and `module.zip`.
 - **Why:** The version lives in one place (the tag), and the `releases/latest` manifest URL stays stable for Foundry's update checks.
+
+## D-007: Develop in a dev container with Foundry running alongside
+- **Date:** 2026-10-28
+- **Decision:** `.devcontainer/` defines two Compose services: `dev` (Node 22, where VS Code attaches) and `foundry` (`ghcr.io/felddy/foundryvtt:14`). The repo is bind-mounted read-only into Foundry's `Data/modules/wayfinder-dice-lab`. Foundry's data lives in a named volume. Credentials live in a gitignored `.devcontainer/.env`.
+- **Why:** Development already happens in dev containers. Running Foundry next to the editor gives a save-and-refresh loop without symlinks or keeping code inside Foundry's data folder, and keeps experiments away from the live game server, which installs from releases only.
+- **Notes:** The Foundry container's hostname is pinned (`wayfinder-dev`) because Foundry ties license verification to it. The port is bound to `127.0.0.1` only. Node-only for now; add Go only if a shared-code need appears.

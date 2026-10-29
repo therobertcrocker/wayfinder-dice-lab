@@ -1,0 +1,17 @@
+{
+  "name": "Wayfinder Dice Lab",
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "dev",
+  "runServices": ["dev", "foundry"],
+  "workspaceFolder": "/workspaces/wayfinder-dice-lab",
+  "shutdownAction": "stopCompose",
+  "remoteUser": "node",
+  "postCreateCommand": "git config --global --add safe.directory /workspaces/wayfinder-dice-lab",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "esbenp.prettier-vscode"
+      ]
+    }
+  }
+}
